@@ -25,5 +25,6 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-swing:mac:11" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-web:11" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-web:mac:11" level="project" />
+    <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.2.5.jre7" level="project" />
   </component>
 </module>

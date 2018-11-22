@@ -2,12 +2,13 @@ package be.technifutur.mobile.domain;
 
 import be.technifutur.mobile.data.BeloteDao;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Joueur {
 
-    private final LocalDate dateInscription = LocalDate.now();
+    private LocalDate dateInscription = LocalDate.now();
     BeloteDao beloteDao = new BeloteDao();
     private int id;
     private String adresseMail;
@@ -79,6 +80,9 @@ public class Joueur {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+    public void setDateInscription(LocalDate dateInscription) {
+        this.dateInscription=dateInscription;
     }
 
     @Override
@@ -166,7 +170,7 @@ public class Joueur {
         {
             System.out.println("Adresse mail incorrecte.");
         }
-        else if (beloteDao.mailVerificator(this))
+        else if (beloteDao.mailNotUsed(mail))
         {
             System.out.println("Adresse mail déjà utilisée.");
             return false;
@@ -194,7 +198,7 @@ public class Joueur {
 
         String pattern = "(?=\\S+$).{4,}";
 
-        if (beloteDao.identifiantVerificator(this))
+        if (beloteDao.usernameNotUsed(identifiant))
         {
             System.out.println("Identifiant déjà utilisée.");
             return false;
@@ -210,4 +214,5 @@ public class Joueur {
             return false;
         }
     }
+
 }

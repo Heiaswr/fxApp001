@@ -1,48 +1,103 @@
 package be.technifutur.mobile;
 
-import be.technifutur.mobile.data.BeloteDao;
-import be.technifutur.mobile.domain.Joueur;
+import be.technifutur.mobile.util.NavigationMessenger;
+import be.technifutur.mobile.util.Page;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Scanner;
+import java.io.IOException;
 
-public class Main extends Application {
+public class Main extends Application implements NavigationMessenger.Listener{
+
+    private Stage primaryStage;
+
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
-        Joueur joueur = new Joueur();
-        Scanner sc = new Scanner(System.in);
-        int choix;
+    public void onNavigateTo(Page page, Object data) {
 
-        System.out.println("1. Inscription\n2.Connexion");
-        choix=sc.nextInt();
-
-
-        switch (choix)
-        {
-            case 1:
-                joueur.inscription(joueur);
-                BeloteDao beloteDao = new BeloteDao();
-                beloteDao.insert(joueur);
+        switch (page) {
+            case MAIN:
+                goToFirstScene();
                 break;
-            case 2:
-                joueur.identification(joueur);
+            case LOGIN:
+                goToLoginScene();
+                break;
+            case REGISTER:
+                goToRegisterScene();
+                break;
+            case LOGGEDMENU:
+                goToLoggedMenuScene();
                 break;
             default:
+                System.err.println("Unknown page : " + page);
                 break;
         }
     }
 
+    private void goToLoggedMenuScene() {
+        try
+        {
+            Parent root = FXMLLoader.load(Main.class.getResource("/views/loggedmenu.fxml"));
+            primaryStage.setScene(new Scene(root, 800, 800));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void goToLoginScene() {
+        try
+        {
+            Parent root = FXMLLoader.load(Main.class.getResource("/views/login.fxml"));
+            primaryStage.setScene(new Scene(root, 800, 800));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void goToFirstScene() {
+        try
+        {
+            Parent root = FXMLLoader.load(Main.class.getResource("/views/main.fxml"));
+            primaryStage.setScene(new Scene(root, 800, 800));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToRegisterScene() {
+        try
+        {
+            Parent root = FXMLLoader.load(Main.class.getResource("/views/register.fxml"));
+            primaryStage.setScene(new Scene(root, 800, 800));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        this.primaryStage = primaryStage;
+
+        primaryStage.setTitle("Belote de la mort qui tue");
+        goToFirstScene();
+        primaryStage.show();
+
+        NavigationMessenger.getInstance().register(this);
+
     }
 }
