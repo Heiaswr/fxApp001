@@ -57,6 +57,7 @@ public class LoggedMenuController implements EventHandler<MouseEvent>, Navigatio
         if (mouseEvent.getSource() == soloButton)
         {
             System.out.println("Solo !");
+            NavigationMessenger.getInstance().navigateTo(Page.SOLO, joueur);
 
         }
         if (mouseEvent.getSource() == multiplayerButton)

@@ -31,6 +31,9 @@ public class Main extends Application implements NavigationMessenger.Listener{
             case LOGGEDMENU:
                 goToLoggedMenuScene();
                 break;
+            case SOLO:
+                goToSoloScene();
+                break;
             default:
                 System.err.println("Unknown page : " + page);
                 break;
@@ -76,6 +79,18 @@ public class Main extends Application implements NavigationMessenger.Listener{
         try
         {
             Parent root = FXMLLoader.load(Main.class.getResource("/views/register.fxml"));
+            primaryStage.setScene(new Scene(root, 800, 800));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void goToSoloScene() {
+        try
+        {
+            Parent root = FXMLLoader.load(Main.class.getResource("/views/solo.fxml"));
             primaryStage.setScene(new Scene(root, 800, 800));
         } catch (IOException e)
         {

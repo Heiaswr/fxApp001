@@ -5,5 +5,6 @@ public enum Page {
     MAIN,
     LOGIN,
     REGISTER,
-    LOGGEDMENU
+    LOGGEDMENU,
+    SOLO
 }

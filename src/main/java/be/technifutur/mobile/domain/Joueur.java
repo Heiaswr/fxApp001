@@ -4,6 +4,8 @@ import be.technifutur.mobile.data.BeloteDao;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Joueur {
@@ -16,8 +18,13 @@ public class Joueur {
     private String mdp;
     private String pays;
     private int hp;
+    private ArrayList<Carte> cartes;
 
     public Joueur() {
+    }
+
+    public Joueur(String identifiant) {
+        this.identifiant = identifiant;
     }
 
     public Joueur(String adresseMail, String identifiant, String mdp, String pays) {
@@ -213,6 +220,9 @@ public class Joueur {
             System.out.println("Identifiant incorrect. (Minimum: 4 caractères)");
             return false;
         }
+    }
+    public List<Carte> getCartes() {
+        return cartes;
     }
 
 }
