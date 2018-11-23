@@ -1,6 +1,7 @@
 package be.technifutur.mobile.data;
 
 import be.technifutur.mobile.domain.Joueur;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ CREATE TABLE joueur(
     id_joueur SERIAL NOT NULL,
     mail character varying(50) COLLATE pg_catalog."default" NOT NULL,
     identifiant character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    mdp character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    mdp character varying(100) COLLATE pg_catalog."default" NOT NULL,
     pays character varying(25) COLLATE pg_catalog."default",
     date_inscription date,
     hp integer,
@@ -44,8 +45,9 @@ CREATE TABLE joueur(
                 pays VARCHAR(25),
                 date_inscription Date,
                 hp INT, PRIMARY KEY(id_joueur))*/
+            String pwd = BCrypt.hashpw(joueur.getMdp(), BCrypt.gensalt());
             String query = String.format("INSERT INTO joueur (mail, identifiant, mdp, pays, date_inscription, hp)" +
-                            "VALUES ('%s', '%s', '%s', '%s', '%s', '%d')", joueur.getAdresseMail(), joueur.getIdentifiant(), joueur.getMdp(),
+                            "VALUES ('%s', '%s', '%s', '%s', '%s', '%d')", joueur.getAdresseMail(), joueur.getIdentifiant(), pwd,
                     joueur.getPays(), joueur.getDateInscription().format(DateTimeFormatter.ISO_LOCAL_DATE), joueur.getHp());
 
 
@@ -156,14 +158,20 @@ CREATE TABLE joueur(
                 pays VARCHAR(25),
                 date_inscription Date,
                 hp INT, PRIMARY KEY(id_joueur))*/
-            String query = String.format("SELECT * FROM joueur WHERE identifiant = '%s' AND mdp = '%s'", username, pwd);
+
+            String query = String.format("SELECT * FROM joueur WHERE identifiant = '%s'", username);
 
 
             statement.execute(query);
             ResultSet rs = statement.executeQuery(query);
 
+            if(rs.next()){
+                if (BCrypt.checkpw(pwd, rs.getString("mdp"))){
+                    return true;
+                }
+            }
 
-            bool = rs.next();
+
             rs.close();
 
 
@@ -172,7 +180,7 @@ CREATE TABLE joueur(
             System.err.println("Erreur avec la DB: " + e.getMessage());
         }
 
-        return bool;
+        return false;
 
 
     }
