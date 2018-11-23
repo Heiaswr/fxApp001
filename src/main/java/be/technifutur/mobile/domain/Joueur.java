@@ -21,10 +21,12 @@ public class Joueur {
     private ArrayList<Carte> cartes;
 
     public Joueur() {
+        cartes = new ArrayList<>();
     }
 
     public Joueur(String identifiant) {
         this.identifiant = identifiant;
+        cartes = new ArrayList<>();
     }
 
     public Joueur(String adresseMail, String identifiant, String mdp, String pays) {
@@ -34,6 +36,7 @@ public class Joueur {
         this.mdp = mdp;
         this.pays = pays;
         this.hp = 100;
+        cartes = new ArrayList<>();
     }
 
     public String getMdp() {
